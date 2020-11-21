@@ -11,24 +11,26 @@ export class AppComponent implements OnInit {
     let elem = document.getElementById('draw-shapes');
     let parmas = {fullscreen: true};
     let two = new Two(parmas).appendTo(elem);
-    let x = 72;
-    let y = 72;
-
-    let circle=two.makeCircle(72, 100, 50);
-    circle.fill = "#FF8000";
-    let rect = two.makeRectangle(700, 100, 100, 100);
-    rect.fill= "#FF30FF";
-    let circle2=two.makeCircle(700, 100, 50);
-    let rect2=two.makeCircle(900, 100, 75);
-    let circle3=two.makeCircle(500, 150, 50);
     
-    let ellipse = two.makeEllipse(100,200,20,40);
-    let star = two.makeStar(20, 40, 10, 60, 5);
+    
+    let now = Date.now()/1000;
+
+
+    let circle = two.makeCircle(500, 50, 50);
+    let scaleDelta = -0.01;
+    
 
     two.bind('update', (framesPerSecond)=>{
-      circle.translation.set(x,y);
-      x=x+10;
-      y=y+2;
+      let changeintime=Date.now()/1000;
+      circle.scale = circle.scale+scaleDelta;
+      if (circle.scale>3){
+        scaleDelta = -0.01
+      }
+      if (circle.scale<0.5){
+        scaleDelta = 0.01
+      }
+      
+    
 
     }).play();
 
