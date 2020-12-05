@@ -12,25 +12,17 @@ export class AppComponent implements OnInit {
     let parmas = {fullscreen: true};
     let two = new Two(parmas).appendTo(elem);
     
-    
-    let now = Date.now()/1000;
 
+  var columns = 10;
+  var rows = 1;
+  var frameRate = 15;
 
-    let circle = two.makeCircle(500, 50, 50);
-    let scaleDelta = -0.01;
-    
+  var sheet = two.makeSprite('https://storage.googleapis.com/archive.jono.fyi/projects/two-js/junk/images/ken-sprite.png', 
+    400, 300, columns, rows, 100);
+    sheet.play();
 
     two.bind('update', (framesPerSecond)=>{
-      let changeintime=Date.now()/1000;
-      circle.scale = circle.scale+scaleDelta;
-      if (circle.scale>3){
-        scaleDelta = -0.01
-      }
-      if (circle.scale<0.5){
-        scaleDelta = 0.01
-      }
       
-    
 
     }).play();
 
