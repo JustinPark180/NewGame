@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
 
 @Component({
@@ -7,28 +7,37 @@ import Two from '../assets/two.min.js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
+  x: number=200;
+  y: number=200;
+
   ngOnInit(): void{
     let elem = document.getElementById('draw-shapes');
     let parmas = {fullscreen: true};
     let two = new Two(parmas).appendTo(elem);
     
+  
 
-  var columns = 10;
-  var rows = 1;
-  var frameRate = 15;
-
-  var sheet = two.makeSprite('https://storage.googleapis.com/archive.jono.fyi/projects/two-js/junk/images/ken-sprite.png', 
-    400, 300, columns, rows, 100);
+  var sheet = two.makeSprite('../assets/sprites/stand0_1.png', 
+    400, 300, 2, 1, 150);
     sheet.play();
 
     two.bind('update', (framesPerSecond)=>{
-      
+    sheet.translation.x=this.x;
 
     }).play();
 
   }
 
-  
-  title = 'NewGame';
+  @HostListener('document:keydown', ['$event'])
+  handleKey(event: KeyboardEvent) {
+    if (event.key=='ArrowRight') {
+      this.x=this.x+15;
+    }
+    else if (event.key=='ArrowLeft') {
+      this.x=this.x-15;
+    }
+  }
 
+  title = 'NewGame';
   }
