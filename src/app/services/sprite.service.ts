@@ -18,6 +18,7 @@ export interface Sprite {
   rows: number; // how many rows in your sprite sheet
   columns : number; // how many colums in your sprite sheet
 
+  sprite: any;
 }
 
 @Injectable({
@@ -26,21 +27,22 @@ export interface Sprite {
 export class SpriteService {
   sprites:Sprite[]=[
     {
-      name: 'sprite',
-      visibility: true,
+    name: 'sprite',
+    visibility: true,
     state: 0,
     direction: 'left',
     maxSpeed: 15,
     acceleration: 1,
     size: 1,
     playable: true,
-    url: 'src\assets\sprites\stand0_1.png',
+    url: '../assets/sprites/stand0_1.png',
     fps: 7,
     x: 400,
     y:300,
     rows: 1,
-    columns : 2,
-    }
+    columns: 2,
+    sprite: null,
+  }
   ];
 
   constructor() { }
