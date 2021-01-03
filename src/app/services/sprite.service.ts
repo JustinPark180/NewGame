@@ -5,6 +5,7 @@ export interface Sprite {
   visibility: boolean;
   state: number; //0 = moving or 1 =stationary
   direction: string; //right, left, up, down (where the sprite is facing)
+  lastDirection: string;
   maxSpeed: number;
   acceleration: number;
   size: number;
@@ -19,6 +20,9 @@ export interface Sprite {
   columns : number; // how many colums in your sprite sheet
 
   sprite: any;
+
+  leftFrames: number[];
+  rightFrames: number[];
 }
 
 @Injectable({
@@ -31,17 +35,20 @@ export class SpriteService {
     visibility: true,
     state: 0,
     direction: 'left',
+    lastDirection: 'left',
     maxSpeed: 15,
     acceleration: 1,
     size: 1,
     playable: true,
-    url: '../assets/sprites/stand0_1.png',
+    url: '../assets/sprites/4 stand.png',
     fps: 7,
     x: 400,
     y:300,
-    rows: 1,
+    rows: 2,
     columns: 2,
     sprite: null,
+    leftFrames: [0,1],
+    rightFrames: [2,3]
   }
   ];
 
