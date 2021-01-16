@@ -52,5 +52,40 @@ export class SpriteService {
   }
   ];
 
+
+apple:Sprite=
+{
+  name: 'cake',
+  visibility: true,
+  state: 0,
+  direction: 'left',
+  lastDirection: 'left',
+  maxSpeed: 15,
+  acceleration: 1,
+  size: 1,
+  playable: true,
+  url: 'src/assets/sprites/fly_11.png',
+  fps: 7,
+  x: 400,
+  y:300,
+  rows: 2,
+  columns: 2,
+  sprite: null,
+  leftFrames: [0,1],
+  rightFrames: [2,3]
+};
+
+
+populateApple(numberToPopulate: number) {
+  for (let i=0; i<numberToPopulate; i++) {
+    let apple = this.apple;
+    apple.x = Math.floor(Math.random() * 500* i);
+    apple.y = Math.floor(Math.random() * 100* i);
+    
+    this.sprites.push(JSON.parse(JSON.stringify(apple)));
+
+  }
+}
+
   constructor() { }
 }
