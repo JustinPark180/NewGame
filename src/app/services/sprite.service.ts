@@ -53,7 +53,7 @@ export class SpriteService {
   ];
 
 
-apple:Sprite=
+cake:Sprite=
 {
   name: 'cake',
   visibility: true,
@@ -64,7 +64,7 @@ apple:Sprite=
   acceleration: 1,
   size: 1,
   playable: true,
-  url: 'src/assets/sprites/fly_11.png',
+  url: '../assets/sprites/fly_11.png',
   fps: 7,
   x: 400,
   y:300,
@@ -76,13 +76,13 @@ apple:Sprite=
 };
 
 
-populateApple(numberToPopulate: number) {
+populateCake(numberToPopulate: number) {
   for (let i=0; i<numberToPopulate; i++) {
-    let apple = this.apple;
-    apple.x = Math.floor(Math.random() * 500* i);
-    apple.y = Math.floor(Math.random() * 100* i);
+    let cake = this.cake;
+    cake.x = Math.floor(Math.random() * 500* i);
+    cake.y = Math.floor(Math.random() * 100* i);
     
-    this.sprites.push(JSON.parse(JSON.stringify(apple)));
+    this.sprites.push(JSON.parse(JSON.stringify(cake)));
 
   }
 }
