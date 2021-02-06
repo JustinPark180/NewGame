@@ -62,8 +62,30 @@ cake:Sprite=
   lastDirection: 'left',
   maxSpeed: 15,
   acceleration: 1,
-  size: 1,
+  size: 0.3,
   playable: true,
+  url: '../assets/sprites/fly_11.png',
+  fps: 7,
+  x: 400,
+  y:300,
+  rows: 2,
+  columns: 2,
+  sprite: null,
+  leftFrames: [0,1],
+  rightFrames: [2,3]
+};
+
+tree:Sprite=
+{
+  name: 'tree',
+  visibility: true,
+  state: 0,
+  direction: 'left',
+  lastDirection: 'left',
+  maxSpeed: 0,
+  acceleration: 0,
+  size: 1,
+  playable: false,
   url: '../assets/sprites/fly_11.png',
   fps: 7,
   x: 400,
@@ -87,5 +109,17 @@ populateCake(numberToPopulate: number) {
   }
 }
 
+  populateTree(numberToPopulate: number) {
+    for (let i=0; i<numberToPopulate; i++) {
+      let tree = this.tree;
+      tree.x = Math.floor(Math.random() * 500* i);
+      tree.y = Math.floor(Math.random() * 100* i);
+      
+      this.sprites.push(JSON.parse(JSON.stringify(tree)));
+  
+    }
+}
+
   constructor() { }
 }
+

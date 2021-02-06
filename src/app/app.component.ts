@@ -53,8 +53,9 @@ export class AppComponent implements OnInit {
     this._mapService.init(two)
     this._cameraService.init(this.max_x, this.max_y);
     this._spriteService.populateCake(10)
+    this._spriteService.populateTree(10)
     //loop through service
-    for (let i=0; i<this._spriteService.sprites.length; i++) {
+    for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
       let sprite=this._spriteService.sprites[i];
       this._spriteService.sprites[i].sprite=two.makeSprite(sprite.url, sprite.x, sprite.y, sprite.columns, sprite.rows, sprite.fps);
       this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
@@ -71,7 +72,7 @@ export class AppComponent implements OnInit {
       
       this._cameraService.zoomCamera(this.x, this.y);
 
-        for (let i=0; i<this._spriteService.sprites.length; i++) {
+        for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
           if (i>0) {
             this._spriteService.sprites[i]=this._aiservice.basicAI(this._spriteService.sprites[i]);
             this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
