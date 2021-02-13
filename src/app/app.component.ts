@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
 import { AiService } from './services/ai.service.js';
 import { CameraService } from './services/camera.service.js';
+import { CollisionService } from './services/collision.service.js';
 import { MapService } from './services/map.service.js';
 import { Sprite, SpriteService } from './services/sprite.service.js';
 
@@ -12,6 +13,9 @@ import { Sprite, SpriteService } from './services/sprite.service.js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   direction:string;
   
   x: number=200;
@@ -21,7 +25,7 @@ export class AppComponent implements OnInit {
   max_y: number= 2500;
 
 
-  constructor(private _spriteService: SpriteService, private _cameraService: CameraService, private _mapService: MapService, private _aiservice: AiService) {}
+  constructor(private _spriteService: SpriteService, private _cameraService: CameraService, private _mapService: MapService, private _aiservice: AiService, private _collisionService: CollisionService) {}
 
   @HostListener('document:keydown', ['$event'])
   handleKey(event: any) {
@@ -74,10 +78,11 @@ export class AppComponent implements OnInit {
 
         for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
           if (i>0) {
+            if (!this._spriteService.sprites[i]) continue
             this._spriteService.sprites[i]=this._aiservice.basicAI(this._spriteService.sprites[i]);
             this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
             this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
-            
+            this._spriteService.sprites[i].sprite.scale = this._spriteService[i].scale;
           }
           if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
             this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;

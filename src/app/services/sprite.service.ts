@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export interface Sprite {
+  scale: number;
   name: string;
   visibility: boolean;
   state: number; //0 = moving or 1 =stationary
@@ -31,6 +32,7 @@ export interface Sprite {
 export class SpriteService {
   sprites:Sprite[]=[
     {
+    scale: 1,
     name: 'sprite',
     visibility: true,
     state: 0,
@@ -55,6 +57,7 @@ export class SpriteService {
 
 cake:Sprite=
 {
+  scale: 0.6,
   name: 'cake',
   visibility: true,
   state: 0,
@@ -77,6 +80,7 @@ cake:Sprite=
 
 tree:Sprite=
 {
+  scale: 1,
   name: 'tree',
   visibility: true,
   state: 0,
