@@ -71,28 +71,36 @@ export class AppComponent implements OnInit {
     }
     
     two.bind('update', (framesPerSecond)=>{
-    
-
-    
-      if (this.x+60<this.max_x && this.x-70>0) {
-        this._spriteService.sprites[0].sprite.translation.x=this.x;
-        this._spriteService.sprites[0].x = this.x;
-      } 
-      if (this.y+20<this.max_y && this.y-70>0) {
-        this._spriteService.sprites[0].sprite.translation.y=this.y;
-        this._spriteService.sprites[0].y = this.y;
-      } 
-      
+    if (!this._collisionService.detectBorder(this._spriteService.sprites[0], this.x, this.y)) {
+      this._spriteService.sprites[0].sprite.translation.x=this.x;
+      this._spriteService.sprites[0].x = this.x;
+      this._spriteService.sprites[0].sprite.translation.y=this.y;
+      this._spriteService.sprites[0].y = this.y;
       this._cameraService.zoomCamera(this.x, this.y);
+    }
+    else {
+      this.x = this._spriteService.sprites[0].x
+      this.y = this._spriteService.sprites[0].y
+    }
+    
         for (let i= this._spriteService.sprites.length-1; i>=0; i--) {
           if (i>0) {
             if (!this._spriteService.sprites[i]) continue
+            let oldx = this._spriteService.sprites[i].x
+            let oldy = this._spriteService.sprites[i].y
             this._spriteService.sprites[i] = this._aiService.basicAI(this._spriteService.sprites[i]);
-            this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
-            this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
-            this._spriteService.sprites[i].sprite.scale = this._spriteService.sprites[i].scale;
-            this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);
+            if (!this._collisionService.detectBorder(this._spriteService.sprites[i], this._spriteService.sprites[i].x, this._spriteService.sprites[i].y)) {
+              this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
+              this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
+              this._spriteService.sprites[i].sprite.scale = this._spriteService.sprites[i].scale; 
+            }
+            else {
+              this._spriteService.sprites[i].x=oldx
+              this._spriteService.sprites[i].y=oldy
+            }
+            this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);  
           }
+
         
           if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
             this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;

@@ -1,13 +1,14 @@
 import { Injectable } from "@angular/core";
+import { MapService } from "./map.service";
 import { Sprite } from "./sprite.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class CollisionService {
-    private _mapService: any;
+   
 
-    constructor() { }
+    constructor(private _mapService: MapService) { }
 
     detectCollision(mySprite: Sprite, targetSprite: Sprite) {
         const OFFSET = 4;
@@ -38,5 +39,23 @@ export class CollisionService {
     
           }
         }
-      }    
+      }
+      detectBorder(sprite: Sprite, newX: number, newY: number) {
+        const OFFSET = 2;
+    
+        let width=sprite.sprite.width;
+        let height = sprite.sprite.height;
+        
+        let leftBound = sprite.x-(width/OFFSET);
+        let rightBound = sprite.x+(width/OFFSET);
+        let upperBound = sprite.y-(height/OFFSET);
+        let lowerBound = sprite.y+(height/OFFSET);
+    
+        if (leftBound<1 && newX<sprite.x) return true
+        if (rightBound>this._mapService.MAX_X && newX>sprite.x) return true
+        if (upperBound<1 && newY<sprite.y) return true
+        if (lowerBound>this._mapService.MAX_Y && newY>sprite.y) return true 
+        return false
+      }
+        
 }
