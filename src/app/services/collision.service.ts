@@ -33,23 +33,27 @@ export class CollisionService {
           //console.log('horizontal check!')
           if ((upperBound<targetUpperBound && targetUpperBound<lowerBound) 
           || (upperBound<targetLowerBound && targetLowerBound<lowerBound)) {
-    
-              targetSprite.scale = 0
+              if (targetSprite.type == 'prey') {
+                targetSprite.scale = 0
+              }
+              else if (targetSprite.type =='predator') {
+
+              }
     
     
           }
         }
       }
-      detectBorder(sprite: Sprite, newX: number, newY: number) {
+      detectBorder(sprite: Sprite,oldX: number, oldY: number, newX: number, newY: number) {
         const OFFSET = 2;
     
         let width=sprite.sprite.width;
         let height = sprite.sprite.height;
         
-        let leftBound = sprite.x-(width/OFFSET);
-        let rightBound = sprite.x+(width/OFFSET);
-        let upperBound = sprite.y-(height/OFFSET);
-        let lowerBound = sprite.y+(height/OFFSET);
+        let leftBound = oldX-(width/OFFSET);
+        let rightBound = oldX+(width/OFFSET);
+        let upperBound = oldY-(height/OFFSET);
+        let lowerBound = oldY+(height/OFFSET);
     
         if (leftBound<1 && newX<sprite.x) return true
         if (rightBound>this._mapService.MAX_X && newX>sprite.x) return true

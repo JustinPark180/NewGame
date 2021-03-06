@@ -5,6 +5,7 @@ export interface Sprite {
   name: string;
   visibility: boolean;
   state: number; //0 = moving or 1 =stationary
+  type: string;
   direction: string; //right, left, up, down (where the sprite is facing)
   lastDirection: string;
   maxSpeed: number;
@@ -42,6 +43,7 @@ export class SpriteService {
     acceleration: 1,
     size: 1,
     playable: true,
+    type: 'self',
     url: '../assets/sprites/4 stand.png',
     fps: 7,
     x: 400,
@@ -61,6 +63,7 @@ cake:Sprite=
   name: 'cake',
   visibility: true,
   state: 0,
+  type: 'prey',
   direction: 'left',
   lastDirection: 'left',
   maxSpeed: 15,
@@ -84,6 +87,7 @@ tree:Sprite=
   name: 'tree',
   visibility: true,
   state: 0,
+  type: 'object',
   direction: 'left',
   lastDirection: 'left',
   maxSpeed: 0,
@@ -91,6 +95,30 @@ tree:Sprite=
   size: 1,
   playable: false,
   url: '../assets/sprites/fly_11.png',
+  fps: 7,
+  x: 400,
+  y:300,
+  rows: 2,
+  columns: 2,
+  sprite: null,
+  leftFrames: [0,1],
+  rightFrames: [2,3]
+};
+
+dragon:Sprite=
+{
+  scale: 1.5,
+  name: 'dragon',
+  visibility: true,
+  state: 0,
+  type: 'enemy',
+  direction: 'left',
+  lastDirection: 'left',
+  maxSpeed: 15,
+  acceleration: 1,
+  size: 0.3,
+  playable: true,
+  url: '../assets/sprites/angry_0.png',
   fps: 7,
   x: 400,
   y:300,
@@ -122,6 +150,16 @@ populateCake(numberToPopulate: number) {
       this.sprites.push(JSON.parse(JSON.stringify(tree)));
   
     }
+}
+populateDragon(numberToPopulate: number) {
+  for (let i=0; i<numberToPopulate; i++) {
+    let dragon = this.dragon;
+    dragon.x = Math.floor(Math.random() * 500* i);
+    dragon.y = Math.floor(Math.random() * 100* i);
+    
+    this.sprites.push(JSON.parse(JSON.stringify(dragon)));
+
+  }
 }
 
   constructor() { }

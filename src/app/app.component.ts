@@ -2,6 +2,7 @@ import { HostListener } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
 import { AiService } from './services/ai.service.js';
+import { AudioService } from './services/audio.service.js';
 import { CameraService } from './services/camera.service';
 import { CollisionService } from './services/collision.service.js';
 import { MapService } from './services/map.service.js';
@@ -26,7 +27,8 @@ export class AppComponent implements OnInit {
     private _cameraService: CameraService, 
     private _aiService: AiService, 
     private _mapService: MapService,
-    private _collisionService: CollisionService) {}
+    private _collisionService: CollisionService,
+    private _audioService: AudioService){}
 
   @HostListener('document:keydown', ['$event'])
   handleKey(event: any) {
@@ -55,11 +57,16 @@ export class AppComponent implements OnInit {
 
     };
     let two = new Two(params).appendTo(elem);
+    
+    document.addEventListener('click', ()=>{
+      this._audioService.playBackgroundMusic();
+    })
 
     this._mapService.init(two);
     this._cameraService.init(this.max_x, this.max_y);
     this._spriteService.populateCake(10)
     this._spriteService.populateTree(10)
+    this._spriteService.populateDragon(10)
     
    
 
@@ -71,7 +78,7 @@ export class AppComponent implements OnInit {
     }
     
     two.bind('update', (framesPerSecond)=>{
-    if (!this._collisionService.detectBorder(this._spriteService.sprites[0], this.x, this.y)) {
+    if (!this._collisionService.detectBorder(this._spriteService.sprites[0], this._spriteService.sprites[0].x,this._spriteService.sprites[0].y,this.x, this.y)) {
       this._spriteService.sprites[0].sprite.translation.x=this.x;
       this._spriteService.sprites[0].x = this.x;
       this._spriteService.sprites[0].sprite.translation.y=this.y;
@@ -86,17 +93,17 @@ export class AppComponent implements OnInit {
         for (let i= this._spriteService.sprites.length-1; i>=0; i--) {
           if (i>0) {
             if (!this._spriteService.sprites[i]) continue
-            let oldx = this._spriteService.sprites[i].x
-            let oldy = this._spriteService.sprites[i].y
+            let oldX = this._spriteService.sprites[i].x
+            let oldY = this._spriteService.sprites[i].y
             this._spriteService.sprites[i] = this._aiService.basicAI(this._spriteService.sprites[i]);
-            if (!this._collisionService.detectBorder(this._spriteService.sprites[i], this._spriteService.sprites[i].x, this._spriteService.sprites[i].y)) {
+            if (!this._collisionService.detectBorder(this._spriteService.sprites[i], oldX, oldY, this._spriteService.sprites[i].x, this._spriteService.sprites[i].y)) {
               this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
               this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
               this._spriteService.sprites[i].sprite.scale = this._spriteService.sprites[i].scale; 
             }
             else {
-              this._spriteService.sprites[i].x=oldx
-              this._spriteService.sprites[i].y=oldy
+              this._spriteService.sprites[i].x=oldX
+              this._spriteService.sprites[i].y=oldY
             }
             this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);  
           }
