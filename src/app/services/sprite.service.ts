@@ -118,15 +118,15 @@ dragon:Sprite=
   acceleration: 1,
   size: 0.3,
   playable: true,
-  url: '../assets/sprites/angry_0.png',
+  url: '../assets/sprites/dragon.png',
   fps: 7,
   x: 400,
   y:300,
-  rows: 2,
+  rows: 4,
   columns: 2,
   sprite: null,
-  leftFrames: [0,1],
-  rightFrames: [2,3]
+  leftFrames: [0,3],
+  rightFrames: [4,7]
 };
 
 

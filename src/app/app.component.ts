@@ -5,6 +5,7 @@ import { AiService } from './services/ai.service.js';
 import { AudioService } from './services/audio.service.js';
 import { CameraService } from './services/camera.service';
 import { CollisionService } from './services/collision.service.js';
+import { GameService } from './services/game.service.js';
 import { MapService } from './services/map.service.js';
 import { SpriteService } from './services/sprite.service';
 
@@ -28,7 +29,9 @@ export class AppComponent implements OnInit {
     private _aiService: AiService, 
     private _mapService: MapService,
     private _collisionService: CollisionService,
-    private _audioService: AudioService){}
+    private _audioService: AudioService,
+    private _gameService: GameService){}
+    
 
   @HostListener('document:keydown', ['$event'])
   handleKey(event: any) {
@@ -67,6 +70,8 @@ export class AppComponent implements OnInit {
     this._spriteService.populateCake(10)
     this._spriteService.populateTree(10)
     this._spriteService.populateDragon(10)
+    this._gameService.initScore(two, 10);
+
     
    
 
@@ -119,7 +124,13 @@ export class AppComponent implements OnInit {
             }
           }
         }
-        
+        let numberOfCakes = 0
+        for (let sprite of this._spriteService.sprites) {
+          if (sprite.type=='prey' && sprite.sprite.scale>0) {
+            numberOfCakes++
+          }
+        }
+        this._gameService.displayScore(this.x, this.y, numberOfCakes);    
     }).play();
   }
 
