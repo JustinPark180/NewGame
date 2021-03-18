@@ -94,7 +94,7 @@ tree:Sprite=
   acceleration: 0,
   size: 1,
   playable: false,
-  url: '../assets/sprites/fly_11.png',
+  url: '../assets/sprites/tree.png',
   fps: 7,
   x: 400,
   y:300,
