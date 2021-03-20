@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Sprite, SpriteService } from './sprite.service';
 import Two from '../../assets/two.min.js';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
 
+
   constructor(private _spriteService: SpriteService) { }
 
-  private _william: any;
+  private _cake: any;
   private _score: any
   private _defaultX: number = 1400
   private _defaultY: number = 20
@@ -19,11 +21,27 @@ export class GameService {
   private _scoreXOffset = 60
   private _scoreYOffset = 5
 
+  public numberOfCakes: 15
+
+  //title
+  private _title: any
+  private _subtitle: any
+  private _increment: number =.2;
+
+  private _state = new BehaviorSubject<string>('opening')
+  public stateObservable = this._state.asObservable()
+  get state() {
+    return this._state.getValue()
+  }
+  set state(value) {
+    this._state.next(value)
+  }
+
   initScore(two: any, numberOfCakes) {
-    this._william = two.makeSprite(this._spriteService.cake.url, this._defaultX, this._defaultY, 
+    this._cake = two.makeSprite(this._spriteService.cake.url, this._defaultX, this._defaultY, 
                     this._spriteService.cake.columns, this._spriteService.cake.rows, this._spriteService.cake.fps);
-    this._william.scale = .3;
-    this._william.play(0, 0)
+    this._cake.scale = .3;
+    this._cake.play(0, 0)
     this._score = new Two.Text('X '+numberOfCakes, this._defaultX+this._scoreXOffset, this._defaultY+this._scoreYOffset, 'normal')
     this._score.fill = '#ddddFF';
     this._score.stroke ='#FFFFFF';
@@ -40,10 +58,43 @@ export class GameService {
     if (x<this._defaultX) x =this._defaultX
     if (x>this._maxX) x = this._maxX
     
-    this._william.translation.x=x
-    this._william.translation.y=y
+    this._cake.translation.x=x
+    this._cake.translation.y=y
     this._score.translation.x = x+this._scoreXOffset
     this._score.translation.y = y+this._scoreYOffset
     this._score.value = 'X '+num
   }
+
+  displayTitle(two: any) {
+    this._title = new Two.Text('Wild Hunt', 750, 250, 'normal')
+    this._title.fill = 'yellow'
+    this._title.stroke = 'orange'
+    this._title.scale = '11'
+    two.add(this._title);
+    this._subtitle = new Two.Text('Baby Shark', 750, 250, 'normal')
+    this._title.fill = 'organge'
+    this._title.stroke = 'yellow'
+    this._title.scale = 5
+    two.add(this._subtitle)
+  }
+
+  hideTitle() {
+    this._title.scale = 0
+    this._subtitle.scale = 0
+  }
+
+  animateTitle(){
+    if (this._title.scale>12) {
+      this._increment=.02
+    }
+  else if (this._title.scale<10) {
+    this._increment=.02
+  }
+  this._title.scale=this._title.scale+this._increment
+  this._subtitle.scale= this._subtitle.scale+this._increment
+  }
+
+  displayGameOver() {}
+    
+  
 }
