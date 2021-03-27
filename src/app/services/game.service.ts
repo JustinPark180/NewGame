@@ -28,6 +28,9 @@ export class GameService {
   private _subtitle: any
   private _increment: number =.2;
 
+  private _gameover: any
+  private _gameover2: any
+
   private _state = new BehaviorSubject<string>('opening')
   public stateObservable = this._state.asObservable()
   get state() {
@@ -69,23 +72,25 @@ export class GameService {
     this._title = new Two.Text('Wild Hunt', 750, 250, 'normal')
     this._title.fill = 'yellow'
     this._title.stroke = 'orange'
-    this._title.scale = '11'
+    this._title.scale = 11
     two.add(this._title);
-    this._subtitle = new Two.Text('Baby Shark', 750, 250, 'normal')
-    this._title.fill = 'organge'
-    this._title.stroke = 'yellow'
-    this._title.scale = 5
+    this._subtitle = new Two.Text('Click Anywhere To Begin', 750, 350, 'normal')
+    this._subtitle.fill = 'organge'
+    this._subtitle.stroke = 'yellow'
+    this._subtitle.scale = 5
     two.add(this._subtitle)
   }
 
   hideTitle() {
     this._title.scale = 0
     this._subtitle.scale = 0
+    if (this._gameover) this._gameover.scale = 0
+    if (this._gameover2) this._gameover2.scale = 0
   }
 
   animateTitle(){
     if (this._title.scale>12) {
-      this._increment=.02
+      this._increment=-.02
     }
   else if (this._title.scale<10) {
     this._increment=.02
@@ -94,7 +99,18 @@ export class GameService {
   this._subtitle.scale= this._subtitle.scale+this._increment
   }
 
-  displayGameOver() {}
+  displayGameOver(two: any) {
+    this._gameover = new Two.Text('Game Over', 750, 250, 'normal')
+    this._gameover.fill = 'yellow'
+    this._gameover.stroke = 'orange'
+    this._gameover.scale = 11
+    two.add(this._gameover);
+    this._gameover2 = new Two.Text('Click Anywhere To Restart', 750, 350, 'normal')
+    this._gameover2.fill = 'organge'
+    this._gameover2.stroke = 'yellow'
+    this._gameover2.scale = 5
+    two.add(this._gameover2);
+  }
     
   
 }

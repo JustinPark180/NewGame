@@ -33,7 +33,7 @@ export interface Sprite {
 export class SpriteService {
   sprites:Sprite[]=[
     {
-    scale: 1,
+    scale: 1.25,
     name: 'sprite',
     visibility: true,
     state: 0,
@@ -59,7 +59,7 @@ export class SpriteService {
 
 cake:Sprite=
 {
-  scale: 0.6,
+  scale: 0.85,
   name: 'cake',
   visibility: true,
   state: 0,
@@ -83,7 +83,7 @@ cake:Sprite=
 
 tree:Sprite=
 {
-  scale: 1,
+  scale: 0.8,
   name: 'tree',
   visibility: true,
   state: 0,
@@ -98,8 +98,8 @@ tree:Sprite=
   fps: 7,
   x: 400,
   y:300,
-  rows: 2,
-  columns: 2,
+  rows: 1,
+  columns: 1,
   sprite: null,
   leftFrames: [0,1],
   rightFrames: [2,3]
@@ -107,7 +107,7 @@ tree:Sprite=
 
 dragon:Sprite=
 {
-  scale: 1.5,
+  scale: 1.6,
   name: 'dragon',
   visibility: true,
   state: 0,

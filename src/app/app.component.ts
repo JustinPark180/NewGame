@@ -98,18 +98,19 @@ export class AppComponent implements OnInit {
     two.bind('update', (framesPerSecond)=>{
     if (this.gameState == 'opening') {
       this.opening(two)
+      this.playing(two, true)
     }
     else if (this.gameState =='playing') {
-      
-    }
       this.playing(two)
+    }
     }).play();
   }
   opening(two:any) {
     //this._gameService.displayTitle(two)
     this._gameService.animateTitle()
   }
-playing(two: any, auto = false) {
+playing(two: any, autopilot = false) {
+  if (!autopilot) {
   if (!this._collisionService.detectBorder(this._spriteService.sprites[0], this._spriteService.sprites[0].x,this._spriteService.sprites[0].y,this.x, this.y)) {
     this._spriteService.sprites[0].sprite.translation.x=this.x;
     this._spriteService.sprites[0].x = this.x;
@@ -120,10 +121,15 @@ playing(two: any, auto = false) {
   else {
     this.x = this._spriteService.sprites[0].x
     this.y = this._spriteService.sprites[0].y
+
+  }
+  }
+  if (this._spriteService.sprites[0].state <0) {
+    this._gameService.state = 'gameover'
   }
   
       for (let i= this._spriteService.sprites.length-1; i>=0; i--) {
-        if (i>0) {
+        if (i>0 || autopilot) {
           if (!this._spriteService.sprites[i]) continue
           let oldX = this._spriteService.sprites[i].x
           let oldY = this._spriteService.sprites[i].y
@@ -137,7 +143,7 @@ playing(two: any, auto = false) {
             this._spriteService.sprites[i].x=oldX
             this._spriteService.sprites[i].y=oldY
           }
-          this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);  
+          if (!autopilot) this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);  
         }
 
       
