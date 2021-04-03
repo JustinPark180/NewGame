@@ -111,7 +111,7 @@ dragon:Sprite=
   name: 'dragon',
   visibility: true,
   state: 0,
-  type: 'enemy',
+  type: 'predator',
   direction: 'left',
   lastDirection: 'left',
   maxSpeed: 15,

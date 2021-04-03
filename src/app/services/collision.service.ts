@@ -37,13 +37,13 @@ export class CollisionService {
                 targetSprite.scale = 0
               }
               else if (targetSprite.type =='predator') {
+                mySprite.state = -1;
 
-              }
-    
-    
+            }
           }
         }
       }
+      
       detectBorder(sprite: Sprite,oldX: number, oldY: number, newX: number, newY: number) {
         const OFFSET = 2;
     

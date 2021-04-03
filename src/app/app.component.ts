@@ -69,29 +69,21 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this._mapService.init(two);
-    this._cameraService.init(this.max_x, this.max_y);
-    this._spriteService.populateCake(10)
-    this._spriteService.populateTree(10)
-    this._spriteService.populateDragon(10)
-    this._gameService.initScore(two, 10);
-
-    
-   
-
-    for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
-      let sprite=this._spriteService.sprites[i];
-      this._spriteService.sprites[i].sprite=two.makeSprite(sprite.url, sprite.x, sprite.y, sprite.columns, sprite.rows, sprite.fps);
-      this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
-      this._spriteService.sprites[i].sprite.scale=this._spriteService.sprites[i].scale;
-    }
-    
+  this.initialize(two)
 
     this._gameService.stateObservable.subscribe((value)=>{
       this.gameState = value;
       switch(value) {
         case 'opening':
-          this._gameService.displayTitle(two)
+        //this._gameService.hideScore()
+        this._gameService.displayTitle(two)
+          break;
+        case 'playing':
+          this.initialize(two)
+          this._gameService.hideTitle()
+          break;
+        case 'gameover':
+          this._gameService.displayGameOver(two)
           break;
       }
     })
@@ -104,6 +96,41 @@ export class AppComponent implements OnInit {
       this.playing(two)
     }
     }).play();
+  }
+  initialize(two: any) {
+   for (let i=this._spriteService.sprites.length-1; i>0; i--) {
+      this._spriteService.sprites[i].scale = 0;
+      if (this._spriteService.sprites[i].sprite) {
+        this._spriteService.sprites[i].sprite.scale = 0
+      }
+      this._spriteService.sprites.splice(i, 1); 
+  }
+  this._spriteService.sprites[0].x = 200;
+  this._spriteService.sprites[0].y = 200;
+  this._spriteService.sprites[0].state = 0;
+  if (this._spriteService.sprites[0].sprite) this._spriteService.sprites[0].sprite.scale = 0
+
+  this.x = 200;
+  this.y = 200;
+  this._mapService.init(two);
+  this._cameraService.init(this.max_x, this.max_y);
+  this._spriteService.populateCake(10)
+  this._spriteService.populateTree(10)
+  this._spriteService.populateDragon(10)
+  this._gameService.initScore(two, 10);
+
+  
+ 
+
+  for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
+    let sprite=this._spriteService.sprites[i];
+    this._spriteService.sprites[i].sprite=two.makeSprite(sprite.url, sprite.x, sprite.y, sprite.columns, sprite.rows, sprite.fps);
+    this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
+    this._spriteService.sprites[i].sprite.scale=this._spriteService.sprites[i].scale;
+  }
+  
+  
+  
   }
   opening(two:any) {
     //this._gameService.displayTitle(two)

@@ -7,6 +7,9 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class GameService {
+  hideScore() {
+    throw new Error('Method not implemented.');
+  }
 
 
   constructor(private _spriteService: SpriteService) { }
