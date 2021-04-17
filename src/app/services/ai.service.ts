@@ -87,4 +87,25 @@ export class AiService {
     }
     return sprite;
   }
+
+  predatorAI(sprite: Sprite, x: number, y: number, range: number) {
+    let distance = Math.pow(sprite.x-x,2) + Math.pow(sprite.y-y,2)
+    if (sprite.x<=range) {
+      if (sprite.x<=x) {
+        sprite.direction = 'right'
+        sprite.x = sprite.x+sprite.maxSpeed;
+      }
+     else {
+      sprite.direction = 'left'
+      sprite.x = sprite.x-sprite.maxSpeed;
+    }
+    if (sprite.y<=y) {
+      sprite.y = sprite.y+sprite.maxSpeed;
+  }
+  else {
+    sprite.y = sprite.y-sprite.maxSpeed;
 }
+}
+}
+}
+  

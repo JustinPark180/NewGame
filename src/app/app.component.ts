@@ -63,8 +63,8 @@ export class AppComponent implements OnInit {
     let two = new Two(params).appendTo(elem);
     
     document.addEventListener('click', ()=>{
-      this._audioService.playBackgroundMusic();
-      if (this.gameState == 'opening') {
+      //this._audioService.playBackgroundMusic();
+      if (this.gameState == 'opening' || this.gameState=='gameover' || this.gameState=='gameclear') {
         this._gameService.state = 'playing'
       }
     });
@@ -79,11 +79,14 @@ export class AppComponent implements OnInit {
         this._gameService.displayTitle(two)
           break;
         case 'playing':
-          this.initialize(two)
           this._gameService.hideTitle()
+        this.initialize(two)
           break;
         case 'gameover':
           this._gameService.displayGameOver(two)
+          break;
+        case 'gameclear':
+          this._gameService.displayGameClear(two)
           break;
       }
     })
@@ -114,7 +117,7 @@ export class AppComponent implements OnInit {
   this.y = 200;
   this._mapService.init(two);
   this._cameraService.init(this.max_x, this.max_y);
-  this._spriteService.populateCake(10)
+  this._spriteService.populateCake(1)
   this._spriteService.populateTree(10)
   this._spriteService.populateDragon(10)
   this._gameService.initScore(two, 10);
@@ -190,7 +193,11 @@ playing(two: any, autopilot = false) {
           numberOfCakes++
         }
       }
-      this._gameService.displayScore(this.x, this.y, numberOfCakes);    
+      
+      if (numberOfCakes==0) {
+        this._gameService.state = 'gameclear'
+      }
+      if (!autopilot) this._gameService.displayScore(this.x, this.y, numberOfCakes);    
 }
   title = 'Game';
 
