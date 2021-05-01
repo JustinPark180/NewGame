@@ -37,13 +37,24 @@ export class GameService {
   private _gameclear: any
   private _gameclear2: any
 
-  private _state = new BehaviorSubject<string>('opening')
-  public stateObservable = this._state.asObservable()
+  private _state = new BehaviorSubject<string>('opening');
+  public stateObservable = this._state.asObservable();
+
+  private _stage = new BehaviorSubject<number>(0);
+  public stageObservable = this._stage.asObservable();
+
   get state() {
     return this._state.getValue()
   }
   set state(value) {
     this._state.next(value)
+  }
+
+  get stage() {
+    return this._stage.getValue()
+  }
+  set stage(value) {
+    this._stage.next(value)
   }
 
   initScore(two: any, numberOfCakes) {
@@ -111,25 +122,33 @@ export class GameService {
   }
 
   displayGameOver(two: any) {
-    this._gameover = new Two.Text('Game Over', 750, 250, 'normal')
+    this._gameover = new Two.Text('Game Over', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)-50, 'normal')
     this._gameover.fill = 'yellow'
     this._gameover.stroke = 'orange'
     this._gameover.scale = 11
     two.add(this._gameover);
-    this._gameover2 = new Two.Text('Click Anywhere To Restart', 750, 350, 'normal')
+    this._gameover2 = new Two.Text('Click Anywhere To Restart', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)+50, 'normal')
     this._gameover2.fill = 'organge'
     this._gameover2.stroke = 'yellow'
     this._gameover2.scale = 5
     two.add(this._gameover2);
   }
 
-  displayGameClear(two: any) {
-    this._gameclear = new Two.Text('Game Over', 750, 250, 'normal')
+  displayGameClear(two: any, stage:number, maxStage:number) {
+    this._gameclear = new Two.Text('Game Clear', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)-50,'normal')
     this._gameclear.fill = 'yellow'
     this._gameclear.stroke = 'orange'
     this._gameclear.scale = 11
     two.add(this._gameclear);
-    this._gameclear2 = new Two.Text('Click Anywhere To Restart', 750, 350, 'normal')
+    let textToSay='';
+    if (stage+1<=maxStage) {
+      textToSay = 'Click anywhere to advance to Stage' +(stage+1);
+    }
+    else {
+      textToSay = 'Click anywhere to restart'
+    }
+
+    this._gameclear2 = new Two.Text(textToSay, window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)+50, 'normal')
     this._gameclear2.fill = 'organge'
     this._gameclear2.stroke = 'yellow'
     this._gameclear2.scale = 5

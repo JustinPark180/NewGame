@@ -8,6 +8,7 @@ import { CollisionService } from './services/collision.service.js';
 import { GameService } from './services/game.service.js';
 import { MapService } from './services/map.service.js';
 import { SpriteService } from './services/sprite.service';
+import { Stage, StageService } from './services/stage.service.js';
 
 
 @Component({
@@ -23,7 +24,9 @@ export class AppComponent implements OnInit {
 
   max_x: number= 1500;
   max_y: number= 1300;
-  gameState: any;
+  gameState: string ='';
+  gameStage: number = 0;
+  stageData: Stage;
 
   constructor(private _spriteService: SpriteService, 
     private _cameraService: CameraService, 
@@ -31,7 +34,10 @@ export class AppComponent implements OnInit {
     private _mapService: MapService,
     private _collisionService: CollisionService,
     private _audioService: AudioService,
-    private _gameService: GameService){}
+    private _gameService: GameService,
+    private _stageService: StageService) {}
+
+
     
 
   @HostListener('document:keydown', ['$event'])
@@ -86,9 +92,14 @@ export class AppComponent implements OnInit {
           this._gameService.displayGameOver(two)
           break;
         case 'gameclear':
-          this._gameService.displayGameClear(two)
+          this._gameService.displayGameClear(two, this.gameStage+1, this._stageService.stages.length)
           break;
       }
+    })
+
+    this._gameService.stageObservable.subscribe((value)=>{
+      this.gameStage = value;
+      this.stageData = this._stageService.stages[this.gameStage]
     })
     two.bind('update', (framesPerSecond)=>{
     if (this.gameState == 'opening') {
@@ -196,6 +207,7 @@ playing(two: any, autopilot = false) {
       
       if (numberOfCakes==0) {
         this._gameService.state = 'gameclear'
+        this._gameService.stage = this.gameStage+1;
       }
       if (!autopilot) this._gameService.displayScore(this.x, this.y, numberOfCakes);    
 }
