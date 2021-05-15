@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MapService } from './map.service';
 
 export interface Sprite {
   scale: number;
@@ -129,12 +130,19 @@ dragon:Sprite=
   rightFrames: [4,7]
 };
 
+private _max_x = 0;
+private _max_y = 0;
+
+constructor(private _mapService: MapService){
+  this._max_x = this._mapService.MAX_X;
+  this._max_y = this._mapService.MAX_Y;
+}
 
 populateCake(numberToPopulate: number) {
   for (let i=0; i<numberToPopulate; i++) {
     let cake = this.cake;
-    cake.x = Math.floor(Math.random() * 500* i);
-    cake.y = Math.floor(Math.random() * 100* i);
+    cake.x = Math.floor(Math.random() * (this._max_x/numberToPopulate))+(this._max_x/numberToPopulate)*i;
+    cake.y = Math.floor(Math.random() * 30* i)+200;
     
     this.sprites.push(JSON.parse(JSON.stringify(cake)));
 
@@ -144,8 +152,8 @@ populateCake(numberToPopulate: number) {
   populateTree(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let tree = this.tree;
-      tree.x = Math.floor(Math.random() * 500* i);
-      tree.y = Math.floor(Math.random() * 100* i);
+      tree.x = Math.floor(Math.random() * (this._max_x/numberToPopulate))+(this._max_x/numberToPopulate)*i;
+      tree.y = Math.floor(Math.random() * 30* i);
       
       this.sprites.push(JSON.parse(JSON.stringify(tree)));
   
@@ -154,14 +162,14 @@ populateCake(numberToPopulate: number) {
 populateDragon(numberToPopulate: number) {
   for (let i=0; i<numberToPopulate; i++) {
     let dragon = this.dragon;
-    dragon.x = Math.floor(Math.random() * 500* i);
-    dragon.y = Math.floor(Math.random() * 100* i);
+    dragon.x = Math.floor(Math.random() * (this._max_x/numberToPopulate))+(this._max_x/numberToPopulate)*i;
+    dragon.y = Math.floor(Math.random() * 30* i);
     
     this.sprites.push(JSON.parse(JSON.stringify(dragon)));
 
   }
 }
 
-  constructor() { }
+  
 }
 
