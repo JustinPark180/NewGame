@@ -1,4 +1,6 @@
 import { Injectable } from "@angular/core";
+import { AudioService } from "./audio.service";
+import { GameService } from "./game.service";
 import { MapService } from "./map.service";
 import { Sprite } from "./sprite.service";
 
@@ -8,9 +10,9 @@ import { Sprite } from "./sprite.service";
 export class CollisionService {
    
 
-    constructor(private _mapService: MapService) { }
+    constructor(private _mapService: MapService, private _gameService:GameService, private _audioService:AudioService, ) { }
 
-    detectCollision(mySprite: Sprite, targetSprite: Sprite) {
+    detectCollision(mySprite: Sprite, targetSprite: Sprite, ) {
         const OFFSET = 4;
     
         let width=mySprite.sprite.width;
@@ -35,9 +37,11 @@ export class CollisionService {
           || (upperBound<targetLowerBound && targetLowerBound<lowerBound)) {
               if (targetSprite.type == 'prey') {
                 targetSprite.scale = 0
+                this._audioService.score();
               }
               else if (targetSprite.type =='predator') {
                 mySprite.state = -1;
+                this._audioService.score();
 
             }
           }
